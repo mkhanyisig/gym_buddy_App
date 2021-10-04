@@ -3,15 +3,16 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-export default function Hello({navigation }) {
+
+export default function About({navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>
-          Hi, Welcome to Gym Buddy App by Mkhanyisi!
+          Gym Buddy is an App Idea created by for COSI 153a: Mobile App Development in Fall 2021 by Mkhanyisi Gamedze
       </Text>
       <Button
-          title="Go to Details"
-          onPress={() => navigation.navigate('Details')}
+          title="Home"
+          onPress={() => navigation.navigate('Home')}
           />
     </View>
   );
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
   },
   header: {
     fontSize:32,
