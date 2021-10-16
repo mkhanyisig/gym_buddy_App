@@ -51,7 +51,7 @@ export default function Welcome({navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFDE4',
     justifyContent:'space-around',
   },
   topbtn:{
