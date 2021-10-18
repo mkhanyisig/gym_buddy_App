@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import { StyleSheet,
         Text,
         View,
@@ -7,37 +7,87 @@ import { StyleSheet,
         TouchableOpacity,
         TextInput,
         Switch,
+        Platform,
         Dimensions,
         StatusBar }
         from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import PofileAttribute, {variables} from "../components/ProfileAttribute";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const win = Dimensions.get('window');
 
 const ratio = win.width/541;
 
-const variables = {
-	dpSize: 150,
-	marginH: 50,
-	blue: '#27b4e4',
-	greyText: '#d3d8da',
-	greyLine: '#f0f0f0',
-};
+function BMI(index){
+    if(index<18.5){
+       return "Underweight";
+    }else if(index<24.9){
+        return "Normal Weight";
+    }else if(index<29.9){
+        return "Overweight";
+    }else{
+        return "Obese";
+    }
+}
 
 
-const formFields = [
-	{label: 'First name', value: 'Mkhanyisi', color: 'grey'},
-	{label: 'Email Address', value: 'fabolax@gmail.com', color: 'grey'},
-	{label: 'Last name', value: 'Gamedze', color: 'blue'},
-	{label: 'Nick Name', value: 'MK', color: 'blue'},
-	{label: "Weight", value: 91.6, unit: "kg", color: 'blue'},
-  {label: "Height", value: 185, unit: "cm", color: 'blue'}
-]
+// default
+let formFields = {
+	"fname": {label: 'First Name', value: 'Mkhanyisi', color: 'blue'},
+	"email":{label: 'Email Address', value: 'fabolax@gmail.com', color: 'blue'},
+	"lname":{label: 'Last Name', value: 'Gamedze', color: 'blue'},
+  "dob":{label: 'Date of Birth', value: '02/20/1996', color: 'blue'},
+	"nickname":{label: 'Nick Name', value: 'MK', color: 'grey'},
+	"weightM":{label: "Weight", value: 91.6, unit: "kg", color: 'blue'},
+  "heightM":{label: "Height", value: 185, unit: "cm", color: 'blue'},
+  "weightI":{label: "Weight", value: 202.5, unit: "lbs", color: 'blue'},
+  "heightI":{label: "Height", value:"6 '1",feet:6,inches:1, unit: "ft in", color: 'blue'}
+}
 
 
 //export default class SettingsScreen extends React.Component {
-export default function SettingsScreen({navigation }){
+export default function SettingsScreen({navigation}){
+
+    const [profileObj,setProfile] = useState(formFields);
+
+    const storeData = async (value) => {
+          try {
+            const jsonValue = JSON.stringify(value)
+            await AsyncStorage.setItem('fields', jsonValue)
+          } catch (e) {
+            console.dir(e)
+          }
+    }
+
+    const getData = async () => {
+          try {
+            const jsonValue = await AsyncStorage.getItem('fields')
+            let data = null
+            if (jsonValue!=null) {
+              data = JSON.parse(jsonValue)
+              setProfile(data)
+              console.log(data.email);
+            } else {
+              console.log("Could not get profile");
+            }
+          } catch(e) {
+            console.dir(e)
+          }
+    }
+
+    // hook formFields
+    const [fname,setFName] = useState(formFields["fname"]["value"]);
+    const [lname,setLName] = useState(formFields["lname"]["value"]);
+    const [email,setEmail] = useState(formFields["email"]["value"]);
+    const [birthday,setDOB] = useState(formFields["dob"]["value"]);
+    const [nickname,setNickname] = useState(formFields["nickname"]["value"]);
+
+    const [weightM,setWeightM] = useState(formFields["weightM"]["value"]);
+    const [heightM,setHeightM] = useState(formFields["heightM"]["value"]);
+
+
     // status bar
     const [hidden, setHidden] = useState(true);
     const changeStatusBarVisibility = () => setHidden(!hidden);
@@ -45,6 +95,205 @@ export default function SettingsScreen({navigation }){
     const [units, setUnits] = useState(true);
     const toggleSwitch = () => setUnits(previousState => !previousState);
 
+
+    // retrieve profile
+    storeData(profileObj);
+    useEffect(() => {getData()}
+           ,[])
+    console.log(profileObj);
+
+
+    const metric=(<View>
+
+      <View
+        style={[
+          styles.field,
+        ]}
+      >
+        <Text
+          style={[
+            styles.label,
+            styles[formFields["weightM"].color+'Label']
+          ]}
+        >
+        {formFields["weightM"].label}  {formFields["weightM"].unit && "("+formFields["weightM"].unit+")"}
+        </Text>
+        <View style={styles.input}>
+            {Platform.OS ==='ios'?
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={setWeightM}
+
+                    placeholder="weight kg"
+                    keyboardType="numeric"
+                    maxLength={20}
+                  >
+                      {weightM}
+                  </TextInput>
+                  :
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={setWeightM}
+                    value={weightM}
+                    placeholder="weight kg"
+                    keyboardType="numeric"
+                    maxLength={20}
+                  />
+            }
+
+            <Text style={styles.input}>
+              {formFields["weightM"].unit}
+            </Text>
+        </View>
+      </View>
+      <View
+        style={[
+          styles.field,
+        ]}
+      >
+        <Text
+          style={[
+            styles.label,
+            styles[formFields["heightM"].color+'Label']
+          ]}
+        >
+        {formFields["heightM"].label}  {formFields["heightM"].unit && "("+formFields["heightM"].unit+")"}
+        </Text>
+        <View style={styles.input}>
+          {Platform.OS ==='ios'?
+              <TextInput
+                style={styles.input}
+                placeholder="height cm"
+                onChangeText={setHeightM}
+                
+                keyboardType="numeric"
+                maxLength={20}
+              >
+                  {heightM}
+              </TextInput>
+              :
+              <TextInput
+                style={styles.input}
+                onChangeText={setHeightM}
+                value={heightM}
+                placeholder="height ft"
+                keyboardType="numeric"
+              />
+          }
+
+              <Text style={styles.input}>
+                {formFields["heightM"].unit}
+              </Text>
+        </View>
+
+        </View>
+      </View>)
+
+    const imperial=(<View>
+
+            <View
+              style={[
+                styles.field,
+              ]}
+            >
+              <Text
+                style={[
+                  styles.label,
+                  styles[formFields["weightI"].color+'Label']
+                ]}
+              >
+              {formFields["weightI"].label}  {formFields["weightI"].unit && "("+formFields["weightI"].unit+")"}
+              </Text>
+              <View style={styles.input}>
+                  {Platform.OS ==='ios'?
+                        <TextInput
+                          style={styles.input}
+                          value={formFields["weightI"].value}
+                          placeholder="height ft"
+                          keyboardType="numeric"
+                          maxLength={20}
+                        >
+                            {formFields["weightI"].value}
+                        </TextInput>
+                        :
+                        <TextInput
+                          style={styles.input}
+                          value={formFields["weightI"].value}
+                          placeholder="height ft"
+                          keyboardType="numeric"
+                          maxLength={20}
+                        />
+                  }
+
+                  <Text style={styles.input}>
+                    {formFields["weightI"].unit}
+                  </Text>
+              </View>
+            </View>
+            <View
+              style={[
+                styles.field,
+              ]}
+            >
+              <Text
+                style={[
+                  styles.label,
+                  styles[formFields["heightI"].color+'Label']
+                ]}
+              >
+              {formFields["heightI"].label}  {formFields["heightI"].unit && "("+formFields["heightI"].unit+")"}
+              </Text>
+              <View style={styles.input}>
+                {Platform.OS ==='ios'?
+                    <TextInput
+                      style={styles.input}
+                      placeholder="height ft"
+                      keyboardType="numeric"
+                      maxLength={20}
+                    >
+                        {formFields["heightI"].feet}
+                    </TextInput>
+                    :
+                    <TextInput
+                      style={styles.input}
+                      value={formFields["heightI"].feet}
+                      placeholder="height ft"
+                      keyboardType="numeric"
+                    />
+                }
+
+                    <Text style={styles.input}>
+                      '
+                    </Text>
+                {Platform.OS ==='ios'?
+                    <TextInput
+                      style={styles.input}
+                      placeholder="height inches"
+                      keyboardType="numeric"
+                      maxLength={20}
+                    >
+                      {formFields["heightI"].inches}
+                    </TextInput>
+                    :
+                    <TextInput
+                      style={styles.input}
+                      value={formFields["heightI"].inches}
+                      placeholder="height inches"
+                      keyboardType="numeric"
+                    />
+
+                }
+                <Text style={styles.input}>
+                      " in
+                </Text>
+                {
+                  !formFields["heightI"].icon &&
+                  <Image source={formFields["heightI"].icon} style={styles.icon} />
+                }
+              </View>
+
+              </View>
+      </View>)
 
 
 
@@ -77,7 +326,7 @@ export default function SettingsScreen({navigation }){
 
               <View style={styles.toggle}>
                     <Switch
-                          trackColor={{ false: "#F00", true: "#0000FF" }}
+                          trackColor={{ false: "#Eaf4fc", true: "#0000FF" }}
                           onValueChange={toggleSwitch}
                           value={units}
                     />
@@ -85,43 +334,69 @@ export default function SettingsScreen({navigation }){
               </View>
 
               <View style={styles.inputContainer}>
-                  {
-                    formFields.map((field, i) =>
-                          <View
-                            style={[
-                              styles.field,
-                              field.color === 'blue' ? styles.borderlined : {}
-                            ]}
-                            key={i}
-                          >
-                            <Text
-                              style={[
-                                styles.label,
-                                styles[field.color+'Label']
-                              ]}
-                            >
-                            {field.label}
-                            </Text>
-                            <View style={styles.input}>
-                              {}
-                              <Text style={styles.input}>
-                                {field.value}
-                              </Text>
-                              {
-                                !field.icon &&
-                                <Image source={field.icon} style={styles.icon} />
-                              }
-                            </View>
-
-                            </View>
-                        )
-                  }
+                    {
+                      /*
+                      formFields.map((field, i) =>
+                            <PofileAttribute
+                                obj={field}
+                                key={i}
+                                id={i}
+                            />
+                          )
+                          */
+                    }
+                    <PofileAttribute
+                        obj={formFields["fname"]}
+                        val={fname}
+                        key={1}
+                        id={1}
+                    />
+                    <PofileAttribute
+                        obj={formFields["lname"]}
+                        val={lname}
+                        key={2}
+                        id={2}
+                    />
+                    <PofileAttribute
+                        obj={formFields["nickname"]}
+                        val={nickname}
+                        key={3}
+                        id={3}
+                    />
+                    <PofileAttribute
+                        obj={formFields["dob"]}
+                        val={birthday}
+                        key={4}
+                        id={4}
+                    />
+                    <PofileAttribute
+                        obj={formFields["email"]}
+                        val={email}
+                        key={5}
+                        id={5}
+                    />
               </View>
-              <TextInput
-                style={styles.input}
+              <Text
+                style={styles.inputBox}
                 placeholder="Weight"
                 maxLength={20}
-              />
+              >
+              {!units? "Imperial": "Metric"} Body Measurements {!units ? "🇺🇸 ":"🇬🇧 "}
+              </Text>
+              {!units? imperial: metric}
+
+              <Text style={styles.BMIheader}>
+                    Body Mass Index
+              </Text>
+
+             <Text style={styles.BMIval}>
+                    {(weightM/((heightM/100)*(heightM/100))).toPrecision(3) }
+             </Text>
+
+             <Text style={styles.BMIclass}>
+                  {BMI(weightM/((heightM/100)*(heightM/100)))}
+             </Text>
+
               <View style={styles.inputContainer}>
                     <TouchableOpacity
                       style={styles.saveButton}
@@ -129,6 +404,7 @@ export default function SettingsScreen({navigation }){
                       <Text style={styles.saveButtonText}>Save</Text>
                     </TouchableOpacity>
               </View>
+
         </ScrollView>
 
         </View>
@@ -150,6 +426,26 @@ const styles = StyleSheet.create({
       justifyContent: "space-around"
   },
   header: {
+    fontSize: 25,
+    textAlign: 'center',
+    margin: 10,
+    fontWeight: 'bold'
+  },
+  BMIheader: {
+    fontSize: 32,
+    textAlign: 'center',
+    color: "red",
+    margin: 10,
+    fontWeight: 'bold'
+  },
+  BMIval: {
+    fontSize: 42,
+    textAlign: 'center',
+    color: variables.blue,
+    margin: 10,
+    fontWeight: 'bold'
+  },
+  BMIclass: {
     fontSize: 25,
     textAlign: 'center',
     margin: 10,
@@ -204,7 +500,16 @@ nav: {
   input: {
 		marginBottom: 1,
 		flexDirection: 'row',
-		justifyContent: 'space-between'
+		justifyContent: 'space-evenly'
 	},
+  inputBox:{
+    marginBottom: 1,
+    color: variables.blue,
+    fontWeight: "bold",
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		marginHorizontal: win.width*0.05,
+		marginBottom: 30,
+  }
 
 });
