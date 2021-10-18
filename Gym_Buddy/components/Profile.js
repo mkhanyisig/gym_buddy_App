@@ -34,13 +34,29 @@ function BMI(index){
 
 
 // default
-let formFields = {
-	"fname": {label: 'First Name', value: 'Mkhanyisi', color: 'blue'},
-	"email":{label: 'Email Address', value: 'fabolax@gmail.com', color: 'blue'},
-	"lname":{label: 'Last Name', value: 'Gamedze', color: 'blue'},
+let formFields = null;
+
+const emptyFields = {
+  "state": "empty",
+  "fname": {label: 'First Name', value: '', color: 'blue'},
+  "email":{label: 'Email Address', value: '', color: 'blue'},
+  "lname":{label: 'Last Name', value: '', color: 'blue'},
+  "dob":{label: 'Date of Birth', value: '', color: 'blue'},
+  "nickname":{label: 'Nick Name', value: '', color: 'grey'},
+  "weightM":{label: "Weight", value: null, unit: "kg", color: 'blue'},
+  "heightM":{label: "Height", value: null, unit: "cm", color: 'blue'},
+  "weightI":{label: "Weight", value: null, unit: "lbs", color: 'blue'},
+  "heightI":{label: "Height", value:"",feet:null,inches:null, unit: "ft in", color: 'blue'}
+};
+
+const defaultFields={
+  "state": "default",
+  "fname": {label: 'First Name', value: 'Mkhanyisi', color: 'blue'},
+  "email":{label: 'Email Address', value: 'fabolax@gmail.com', color: 'blue'},
+  "lname":{label: 'Last Name', value: 'Gamedze', color: 'blue'},
   "dob":{label: 'Date of Birth', value: '02/20/1996', color: 'blue'},
-	"nickname":{label: 'Nick Name', value: 'MK', color: 'grey'},
-	"weightM":{label: "Weight", value: 91.6, unit: "kg", color: 'blue'},
+  "nickname":{label: 'Nick Name', value: 'MK', color: 'grey'},
+  "weightM":{label: "Weight", value: 91.6, unit: "kg", color: 'blue'},
   "heightM":{label: "Height", value: 185, unit: "cm", color: 'blue'},
   "weightI":{label: "Weight", value: 202.5, unit: "lbs", color: 'blue'},
   "heightI":{label: "Height", value:"6 '1",feet:6,inches:1, unit: "ft in", color: 'blue'}
@@ -50,11 +66,47 @@ let formFields = {
 //export default class SettingsScreen extends React.Component {
 export default function SettingsScreen({navigation}){
 
-    const [profileObj,setProfile] = useState(formFields);
+
 
     const storeData = async (value) => {
           try {
             const jsonValue = JSON.stringify(value)
+            await AsyncStorage.setItem('fields', jsonValue)
+
+            let data=value;
+            // update fields
+            setFName(data["fname"]["value"]);
+            setLName(data["lname"]["value"]);
+            setEmail(data["email"]["value"]);
+            setDOB(data["dob"]["value"]);
+            setNickname(data["nickname"]["value"]);
+
+            setWeightM(data["weightM"]["value"]);
+            setHeightM(data["heightM"]["value"]);
+            setWeightI(data["weightI"]["value"]);
+            setHeightI(data["heightI"]["value"]);
+          } catch (e) {
+            console.dir(e)
+          }
+    }
+
+    const saveData = async (value) => {
+          try {
+
+            let ff=value
+            ff["state"]="modified";
+            ff["fname"]["value"]=fname;
+            ff["lname"]["value"]=lname;
+            ff["email"]["value"]=email;
+            ff["dob"]["value"]=birthday;
+            ff["nickname"]["value"]=nickname;
+            ff["weightM"]["value"]=weightM;
+            ff["heightM"]["value"]=heightM;
+
+            console.log(ff)
+
+            const jsonValue = JSON.stringify(ff)
+
             await AsyncStorage.setItem('fields', jsonValue)
           } catch (e) {
             console.dir(e)
@@ -64,11 +116,26 @@ export default function SettingsScreen({navigation}){
     const getData = async () => {
           try {
             const jsonValue = await AsyncStorage.getItem('fields')
+            //console.log(jsonValue)
             let data = null
             if (jsonValue!=null) {
               data = JSON.parse(jsonValue)
               setProfile(data)
-              console.log(data.email);
+              console.log(data);
+
+              // update fields
+              setFName(data["fname"]["value"]);
+              setLName(data["lname"]["value"]);
+              setEmail(data["email"]["value"]);
+              setDOB(data["dob"]["value"]);
+              setNickname(data["nickname"]["value"]);
+
+              setWeightM(data["weightM"]["value"]);
+              setHeightM(data["heightM"]["value"]);
+              setWeightI(data["weightI"]["value"]);
+              setHeightI(data["heightI"]["value"]);
+
+
             } else {
               console.log("Could not get profile");
             }
@@ -77,15 +144,58 @@ export default function SettingsScreen({navigation}){
           }
     }
 
-    // hook formFields
-    const [fname,setFName] = useState(formFields["fname"]["value"]);
-    const [lname,setLName] = useState(formFields["lname"]["value"]);
-    const [email,setEmail] = useState(formFields["email"]["value"]);
-    const [birthday,setDOB] = useState(formFields["dob"]["value"]);
-    const [nickname,setNickname] = useState(formFields["nickname"]["value"]);
+    const clearData = async (value) => {
+        try {
+            await AsyncStorage.clear()
+            setProfile(emptyFields)
+            console.log("clearing profile")
+            let data=emptyFields;
+            // update fields
+            setFName(data["fname"]["value"]);
+            setLName(data["lname"]["value"]);
+            setEmail(data["email"]["value"]);
+            setDOB(data["dob"]["value"]);
+            setNickname(data["nickname"]["value"]);
 
-    const [weightM,setWeightM] = useState(formFields["weightM"]["value"]);
-    const [heightM,setHeightM] = useState(formFields["heightM"]["value"]);
+            setWeightM(data["weightM"]["value"]);
+            setHeightM(data["heightM"]["value"]);
+            setWeightI(data["weightI"]["value"]);
+            setHeightI(data["heightI"]["value"]);
+
+        } catch(e) {
+            console.dir(e)
+        }
+    }
+
+    const [profileObj,setProfile] = useState(defaultFields);
+    // retrieve profile
+    useEffect(() => {getData()},[])
+
+
+    if(profileObj["state"]==="modified"){
+        console.log(profileObj)
+        let temp = profileObj;
+        temp["state"]="checked"
+        formFields=temp;
+        setProfile(formFields);
+        console.log("created default profile");
+    }
+
+    console.log(profileObj);
+
+    // hook formFields
+    const [fname,setFName] = useState(profileObj["fname"]["value"]);
+    const [lname,setLName] = useState(profileObj["lname"]["value"]);
+    const [email,setEmail] = useState(profileObj["email"]["value"]);
+    const [birthday,setDOB] = useState(profileObj["dob"]["value"]);
+    const [nickname,setNickname] = useState(profileObj["nickname"]["value"]);
+
+    const [weightM,setWeightM] = useState(profileObj["weightM"]["value"]);
+    const [heightM,setHeightM] = useState(profileObj["heightM"]["value"]);
+    const [weightI,setWeightI] = useState(profileObj["weightI"]["value"]);
+    const [heightI,setHeightI] = useState(profileObj["heightI"]["value"]);
+
+    console.log("weightM : "+weightM);
 
 
     // status bar
@@ -96,11 +206,7 @@ export default function SettingsScreen({navigation}){
     const toggleSwitch = () => setUnits(previousState => !previousState);
 
 
-    // retrieve profile
-    storeData(profileObj);
-    useEffect(() => {getData()}
-           ,[])
-    console.log(profileObj);
+
 
 
     const metric=(<View>
@@ -113,10 +219,10 @@ export default function SettingsScreen({navigation}){
         <Text
           style={[
             styles.label,
-            styles[formFields["weightM"].color+'Label']
+            styles[profileObj["weightM"].color+'Label']
           ]}
         >
-        {formFields["weightM"].label}  {formFields["weightM"].unit && "("+formFields["weightM"].unit+")"}
+        {profileObj["weightM"].label}  {profileObj["weightM"].unit && "("+profileObj["weightM"].unit+")"}
         </Text>
         <View style={styles.input}>
             {Platform.OS ==='ios'?
@@ -142,7 +248,7 @@ export default function SettingsScreen({navigation}){
             }
 
             <Text style={styles.input}>
-              {formFields["weightM"].unit}
+              {profileObj["weightM"].unit}
             </Text>
         </View>
       </View>
@@ -154,10 +260,10 @@ export default function SettingsScreen({navigation}){
         <Text
           style={[
             styles.label,
-            styles[formFields["heightM"].color+'Label']
+            styles[profileObj["heightM"].color+'Label']
           ]}
         >
-        {formFields["heightM"].label}  {formFields["heightM"].unit && "("+formFields["heightM"].unit+")"}
+        {profileObj["heightM"].label}  {profileObj["heightM"].unit && "("+profileObj["heightM"].unit+")"}
         </Text>
         <View style={styles.input}>
           {Platform.OS ==='ios'?
@@ -165,7 +271,7 @@ export default function SettingsScreen({navigation}){
                 style={styles.input}
                 placeholder="height cm"
                 onChangeText={setHeightM}
-                
+
                 keyboardType="numeric"
                 maxLength={20}
               >
@@ -176,13 +282,13 @@ export default function SettingsScreen({navigation}){
                 style={styles.input}
                 onChangeText={setHeightM}
                 value={heightM}
-                placeholder="height ft"
+                placeholder="height cm"
                 keyboardType="numeric"
               />
           }
 
               <Text style={styles.input}>
-                {formFields["heightM"].unit}
+                {profileObj["heightM"].unit}
               </Text>
         </View>
 
@@ -199,26 +305,27 @@ export default function SettingsScreen({navigation}){
               <Text
                 style={[
                   styles.label,
-                  styles[formFields["weightI"].color+'Label']
+                  styles[profileObj["weightI"].color+'Label']
                 ]}
               >
-              {formFields["weightI"].label}  {formFields["weightI"].unit && "("+formFields["weightI"].unit+")"}
+              {profileObj["weightI"].label}  {profileObj["weightI"].unit && "("+profileObj["weightI"].unit+")"}
               </Text>
               <View style={styles.input}>
                   {Platform.OS ==='ios'?
                         <TextInput
                           style={styles.input}
-                          value={formFields["weightI"].value}
-                          placeholder="height ft"
+                          onChangeText={setWeightM}
+                          value={profileObj["weightI"].value}
+                          placeholder="weight lbs"
                           keyboardType="numeric"
                           maxLength={20}
                         >
-                            {formFields["weightI"].value}
+                            {profileObj["weightI"].value}
                         </TextInput>
                         :
                         <TextInput
                           style={styles.input}
-                          value={formFields["weightI"].value}
+                          value={profileObj["weightI"].value}
                           placeholder="height ft"
                           keyboardType="numeric"
                           maxLength={20}
@@ -226,7 +333,7 @@ export default function SettingsScreen({navigation}){
                   }
 
                   <Text style={styles.input}>
-                    {formFields["weightI"].unit}
+                    {profileObj["weightI"].unit}
                   </Text>
               </View>
             </View>
@@ -238,10 +345,10 @@ export default function SettingsScreen({navigation}){
               <Text
                 style={[
                   styles.label,
-                  styles[formFields["heightI"].color+'Label']
+                  styles[profileObj["heightI"].color+'Label']
                 ]}
               >
-              {formFields["heightI"].label}  {formFields["heightI"].unit && "("+formFields["heightI"].unit+")"}
+              {profileObj["heightI"].label}  {profileObj["heightI"].unit && "("+profileObj["heightI"].unit+")"}
               </Text>
               <View style={styles.input}>
                 {Platform.OS ==='ios'?
@@ -251,12 +358,12 @@ export default function SettingsScreen({navigation}){
                       keyboardType="numeric"
                       maxLength={20}
                     >
-                        {formFields["heightI"].feet}
+                        {profileObj["heightI"].feet}
                     </TextInput>
                     :
                     <TextInput
                       style={styles.input}
-                      value={formFields["heightI"].feet}
+                      value={profileObj["heightI"].feet}
                       placeholder="height ft"
                       keyboardType="numeric"
                     />
@@ -272,12 +379,12 @@ export default function SettingsScreen({navigation}){
                       keyboardType="numeric"
                       maxLength={20}
                     >
-                      {formFields["heightI"].inches}
+                      {profileObj["heightI"].inches}
                     </TextInput>
                     :
                     <TextInput
                       style={styles.input}
-                      value={formFields["heightI"].inches}
+                      value={profileObj["heightI"].inches}
                       placeholder="height inches"
                       keyboardType="numeric"
                     />
@@ -287,8 +394,8 @@ export default function SettingsScreen({navigation}){
                       " in
                 </Text>
                 {
-                  !formFields["heightI"].icon &&
-                  <Image source={formFields["heightI"].icon} style={styles.icon} />
+                  !profileObj["heightI"].icon &&
+                  <Image source={profileObj["heightI"].icon} style={styles.icon} />
                 }
               </View>
 
@@ -346,31 +453,31 @@ export default function SettingsScreen({navigation}){
                           */
                     }
                     <PofileAttribute
-                        obj={formFields["fname"]}
+                        obj={profileObj["fname"]}
                         val={fname}
                         key={1}
                         id={1}
                     />
                     <PofileAttribute
-                        obj={formFields["lname"]}
+                        obj={profileObj["lname"]}
                         val={lname}
                         key={2}
                         id={2}
                     />
                     <PofileAttribute
-                        obj={formFields["nickname"]}
+                        obj={profileObj["nickname"]}
                         val={nickname}
                         key={3}
                         id={3}
                     />
                     <PofileAttribute
-                        obj={formFields["dob"]}
+                        obj={profileObj["dob"]}
                         val={birthday}
                         key={4}
                         id={4}
                     />
                     <PofileAttribute
-                        obj={formFields["email"]}
+                        obj={profileObj["email"]}
                         val={email}
                         key={5}
                         id={5}
@@ -400,8 +507,21 @@ export default function SettingsScreen({navigation}){
               <View style={styles.inputContainer}>
                     <TouchableOpacity
                       style={styles.saveButton}
+                      onPress={() => saveData(profileObj)}
                     >
                       <Text style={styles.saveButtonText}>Save</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.resetButton}
+                      onPress={() => storeData(defaultFields)}
+                    >
+                      <Text style={styles.saveButtonText}>Reset to Default</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.clearButton}
+                      onPress={() => storeData(emptyFields)}
+                    >
+                      <Text style={styles.saveButtonText}>Clear</Text>
                     </TouchableOpacity>
               </View>
 
@@ -458,6 +578,19 @@ const styles = StyleSheet.create({
       padding: 15,
       margin: 5
     },
+    resetButton: {
+        borderWidth: 1,
+        borderColor: '#007BFF',
+        backgroundColor: 'green',
+        padding: 15,
+        margin: 5
+      },
+  clearButton: {
+      borderWidth: 1,
+      backgroundColor: 'red',
+      padding: 15,
+      margin: 5
+      },
   saveButtonText: {
     color: '#FFFFFF',
     fontSize: 20,
