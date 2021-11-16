@@ -4,17 +4,15 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
-export default function About({navigation }) {
+export default function TimeWorkout({navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>
-          Log and Track your gym workouts with Gym Buddy App. Get insights on improvements
-
-          Gym Buddy is an App Idea created by for COSI 153a: Mobile App Development in Fall 2021 by Mkhanyisi Gamedze
+          Workouts
       </Text>
       <Button
           title="Home"
-          onPress={() => navigation.navigate('Home')}
+          onPress={() => navigation.navigate('TimeWorkout')}
           />
     </View>
   );
@@ -25,7 +23,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'space-around',
   },
   header: {
     fontSize:32,

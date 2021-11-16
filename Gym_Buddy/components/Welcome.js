@@ -25,7 +25,7 @@ export default function Welcome({navigation }) {
       </View>
       <View style={styles.headerView}>
           <Text style={styles.header}>
-              Gym Buddy 💪
+              Gym Buddy Workouts 💪
           </Text>
       </View>
       <View style={styles.imageView}>
@@ -37,6 +37,13 @@ export default function Welcome({navigation }) {
       <Text>
           Let's get it!!
       </Text>
+      </View>
+      <View style={styles.botbtn}>
+            <Button
+                title="Workouts"
+                color="red"
+                onPress={() => navigation.navigate('Workouts')}
+                />
       </View>
       <View style={styles.botbtn}>
             <Button

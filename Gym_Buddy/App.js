@@ -7,6 +7,8 @@ import Hello from './components/Hello';
 import Welcome from './components/Welcome';
 import About from './components/About';
 import Profile from './components/Profile';
+import Workouts from './components/Workouts';
+import TimeWorkout from './components/TimeWorkout';
 
 function HomeScreen({ navigation }) {
   return (
@@ -43,6 +45,7 @@ export default function App() {
           <Stack.Screen name="Details" component={DetailsScreen} options={{ title: 'Details' }}/>
           <Stack.Screen name="About" component={About} options={{ title: 'About' }}/>
           <Stack.Screen name="Profile" component={Profile} options={{ title: 'Profile' }}/>
+          <Stack.Screen name="Workouts" component={Workouts} options={{ title: 'Workouts' }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
