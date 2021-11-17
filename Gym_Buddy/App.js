@@ -46,6 +46,7 @@ export default function App() {
           <Stack.Screen name="About" component={About} options={{ title: 'About' }}/>
           <Stack.Screen name="Profile" component={Profile} options={{ title: 'Profile' }}/>
           <Stack.Screen name="Workouts" component={Workouts} options={{ title: 'Workouts' }}/>
+          <Stack.Screen name="TimeWorkout" component={TimeWorkout} options={{ title: 'TimeWorkout' }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

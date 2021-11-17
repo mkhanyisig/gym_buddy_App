@@ -54,18 +54,17 @@ export default function Workouts({navigation }) {
 
   return (
     <View style={styles.container}>
-      <View>
+      <View style={styles.header}>
           <Text style={styles.header}>
-              Workouts
+              Workouts Logs
           </Text>
       </View>
-      <View style={styles.list}>
+
           <FlatList
             data={workoutLogs}
             renderItem={renderWorkout}
             keyExtractor={item => item.num}
           />
-      </View>
       <View style={styles.buttonView}>
           <Button
               title="Add Workout"
@@ -89,7 +88,7 @@ const styles = StyleSheet.create({
     backgroundColor:'black',
   },
   item: {
-      backgroundColor: 'grey',
+      backgroundColor: 'yellow',
       padding: 20,
       marginVertical: 8,
       marginHorizontal: 16,
@@ -101,6 +100,9 @@ const styles = StyleSheet.create({
   date: {
     fontSize:20,
     color: "red",
+  },
+  list: {
+
   },
   buttonView: {
     width: '50%',
