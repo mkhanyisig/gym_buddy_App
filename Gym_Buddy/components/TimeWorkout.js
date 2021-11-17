@@ -5,18 +5,24 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
 export default function TimeWorkout({navigation }) {
+  const [timer, setTimer] = useState(1)
   const [time,setTime]=useState("00:00:00")
-  const [timer, setTimer] = useState(3595)
+
   const [isActive, setIsActive] = useState(false)
   const [isPaused, setIsPaused] = useState(false)
   const increment = useRef(null)
 
   const handleStart = () => {
+    setTime(formatTime())
+    console.log("start");
     setIsActive(true)
     setIsPaused(true)
+    console.log("ispaused: "+isPaused)
+
     increment.current = setInterval(() => {
       setTimer((timer) => timer + 1)
     }, 1000)
+
   }
 
   const handlePause = () => {
@@ -26,12 +32,15 @@ export default function TimeWorkout({navigation }) {
 
   const handleResume = () => {
     setIsPaused(true)
+
     increment.current = setInterval(() => {
       setTimer((timer) => timer + 1)
     }, 1000)
+
   }
 
   const handleReset = () => {
+    console.log("Reset");
     clearInterval(increment.current)
     setIsActive(false)
     setIsPaused(false)
@@ -46,8 +55,9 @@ export default function TimeWorkout({navigation }) {
     console.log(`${getHours} : ${getMinutes} : ${getSeconds}`)
     const tm=`${getHours} : ${getMinutes} : ${getSeconds}`
     setTime(tm)
-    //return `${getHours} : ${getMinutes} : ${getSeconds}`
+    return `${getHours} : ${getMinutes} : ${getSeconds}`
   }
+
 
   return (
     <View style={styles.container}>
@@ -55,12 +65,19 @@ export default function TimeWorkout({navigation }) {
             Timed Workout
       </Text>
       <View>
-            <Text> {time}</Text>
+            <View style={styles.time}>
+                <Text style={styles.time}> {time}</Text>
+            </View>
             <View style={styles.buttons}>
-                <Button title="Start" onClick={handleStart}/>
-                <Button title="Pause" onClick={handlePause}/>
-                <Button title="Resume" onClick={handleResume}/>
-                <Button title="Reset" onClick={handleReset}/>
+            {
+              !isActive && !isPaused ?
+                <Button title="Start" onPress={handleStart}/>
+                : (
+                  isPaused ? <Button title="Pause" onPress={handlePause}/> :
+                    <Button title="Resume" onPress={handleResume}/>
+                )
+            }
+            <Button title="Reset" onPress={handleReset} disabled={!isActive}/>
             </View>
 
       </View>
@@ -79,7 +96,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   header: {
-    fontSize:32,
+    fontSize:25,
     padding:25,
     color:"red",
     backgroundColor:'black',
@@ -87,5 +104,10 @@ const styles = StyleSheet.create({
   buttons: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+  },
+  time: {
+    fontSize:42,
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 });
