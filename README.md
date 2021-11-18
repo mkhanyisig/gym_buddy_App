@@ -12,15 +12,15 @@ expo start
 
 ### Welcome Screen
 
-![Welcome Screen](https://raw.githubusercontent.com/mkhanyisig/gym_buddy_App/main/Gym_Buddy/images/IMG_0345.PNG=100x40))
+![Welcome Screen](https://raw.githubusercontent.com/mkhanyisig/gym_buddy_App/main/Gym_Buddy/images/IMG_0345.PNG =100x40))
 
 ### Personal and Health info page
 
-![Info Page](https://raw.githubusercontent.com/mkhanyisig/gym_buddy_App/main/Gym_Buddy/images/IMG_0346.PNG=100x40)
+![Info Page](https://raw.githubusercontent.com/mkhanyisig/gym_buddy_App/main/Gym_Buddy/images/IMG_0346.PNG =100x40)
 
 ### Workout logs
-![Info Page](https://raw.githubusercontent.com/mkhanyisig/gym_buddy_App/main/Gym_Buddy/images/IMG_0347.PNG=100x40)
+![Info Page](https://raw.githubusercontent.com/mkhanyisig/gym_buddy_App/main/Gym_Buddy/images/IMG_0347.PNG =100x40)
 
 ### Time Workout
 
-![Info Page](https://raw.githubusercontent.com/mkhanyisig/gym_buddy_App/main/Gym_Buddy/images/IMG_0347.PNG=100x40)
+![Info Page](https://raw.githubusercontent.com/mkhanyisig/gym_buddy_App/main/Gym_Buddy/images/IMG_0348.PNG =100x40)
