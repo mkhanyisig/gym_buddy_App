@@ -19,7 +19,8 @@ Gym Buddy Workouts 💪  App is designed to be an assisitive gym app helping tra
 
 Download or clone this repository
 
-'''
+```
 expo start
-'''
+```
+
 
