@@ -14,20 +14,16 @@ expo start
 
 ### Welcome Screen
 
-![Welcome Screen](https://raw.githubusercontent.com/mkhanyisig/gym_buddy_App/main/Gym_Buddy/images/IMG_0345.PNG =100x40)
 <img width="300" alt="Welcome Screen" src="https://raw.githubusercontent.com/mkhanyisig/gym_buddy_App/main/Gym_Buddy/images/IMG_0345.PNG">
 
 ### Personal and Health info page
 
-![Info Page](https://raw.githubusercontent.com/mkhanyisig/gym_buddy_App/main/Gym_Buddy/images/IMG_0346.PNG =100x40)
 <img width="300" alt="Health Page" src="https://raw.githubusercontent.com/mkhanyisig/gym_buddy_App/main/Gym_Buddy/images/IMG_0346.PNG">
 
 ### Workout logs
 
-![Info Page](https://raw.githubusercontent.com/mkhanyisig/gym_buddy_App/main/Gym_Buddy/images/IMG_0347.PNG =100x40)
 <img width="300" alt="Workouts" src="https://raw.githubusercontent.com/mkhanyisig/gym_buddy_App/main/Gym_Buddy/images/IMG_0347.PNG">
 
 ### Time Workout
 
-![Info Page](https://raw.githubusercontent.com/mkhanyisig/gym_buddy_App/main/Gym_Buddy/images/IMG_0347.PNG =100x40)
-<img width="300" alt="Timer" src="https://raw.githubusercontent.com/mkhanyisig/gym_buddy_App/main/Gym_Buddy/images/IMG_0347.PNG">
+<img width="300" alt="Timer" src="https://raw.githubusercontent.com/mkhanyisig/gym_buddy_App/main/Gym_Buddy/images/IMG_0348.PNG">
