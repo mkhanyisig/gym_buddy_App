@@ -2,7 +2,7 @@
 
 Gym Buddy Workouts 💪  App is designed to be an assisitive gym app helping track workouts during session and log body health data. Through workout and health logs, these can be used to figure out patterns from user and suggest workouts or improvements given training goals. The aesthetic aims to provide an app experience tailored to workouts in the Gym.
 
-
+[Demo Video](https://drive.google.com/drive/u/1/folders/1o3qHBni2Ecp0Pp5Sk2tYhLTwYsK611Td)
 
 ## Run App
 
