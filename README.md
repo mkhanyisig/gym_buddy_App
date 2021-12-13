@@ -14,17 +14,16 @@ expo start
 
 ### Welcome Screen
 
-![Welcome Screen](https://raw.githubusercontent.com/mkhanyisig/gym_buddy_App/main/Gym_Buddy/images/IMG_0345.PNG)
+![Welcome Screen](https://raw.githubusercontent.com/mkhanyisig/gym_buddy_App/main/Gym_Buddy/images/IMG_0345.PNG =100x40)
 
 ### Personal and Health info page
 
-![Personal Info](https://raw.githubusercontent.com/mkhanyisig/gym_buddy_App/main/Gym_Buddy/images/IMG_0346.PNG)
+![Personal Info](https://raw.githubusercontent.com/mkhanyisig/gym_buddy_App/main/Gym_Buddy/images/IMG_0346.PNG =100x40)
 
 ### Workout logs
-[Wprkout logs](https://raw.githubusercontent.com/mkhanyisig/gym_buddy_App/main/Gym_Buddy/images/IMG_0347.PNG)
+[Wprkout logs](https://raw.githubusercontent.com/mkhanyisig/gym_buddy_App/main/Gym_Buddy/images/IMG_0347.PNG =100x40)
 
 ### Time Workout
 
-![Workout Timer](https://raw.githubusercontent.com/mkhanyisig/gym_buddy_App/main/Gym_Buddy/images/IMG_0348.PNG)
+![Workout Timer](https://raw.githubusercontent.com/mkhanyisig/gym_buddy_App/main/Gym_Buddy/images/IMG_0348.PNG =100x40)
 
-![This is an image](https://myoctocat.com/assets/images/base-octocat.svg)
