@@ -14,7 +14,7 @@ expo start
 
 ### Welcome Screen
 
-![Welcome Screen](https://raw.githubusercontent.com/mkhanyisig/gym_buddy_App/main/Gym_Buddy/images/IMG_0345.PNG =100x40))
+![Welcome Screen](https://raw.githubusercontent.com/mkhanyisig/gym_buddy_App/main/Gym_Buddy/images/IMG_0345.PNG =100x40)
 
 ### Personal and Health info page
 
